@@ -11,7 +11,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
   const dispatch = useDispatch();
   const addTempUser = () => {
     const user: IUser = {
-      id: 3,
+      id: users.length + 1,
       fname: "three",
       lname: "three"
     };
