@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { selectUsers } from "../redux/selector/user.selector";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser, addUser } from "../redux/slice/user.slice";
-import { fetchUsers } from "../redux/reducers/user.reducers";
+import { fetchUserById, fetchUsers } from "../redux/reducers/user.reducers";
 
 interface IHomeProps {
   title: string;
@@ -20,6 +20,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
   };
   useEffect(() => {
     dispatch(fetchUsers());
+    dispatch(fetchUserById({ id: 5 }));
   }, []);
   return (
     <div>

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchUsers, userReducers } from '../reducers/user.reducers';
+import { fetchUserById, fetchUsers, userReducers } from '../reducers/user.reducers';
 
 export interface IUser {
   id: number;
@@ -8,6 +8,7 @@ export interface IUser {
 }
 export interface IUserState {
   users: Array<IUser>[];
+  selectedUser: IUser;
   httpState: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: any | null;
@@ -24,6 +25,7 @@ const initialState: IUserState = {
     firstName: 'Dick',
     lastName: 'Smith'
   }],
+  selectedUser: null,
   httpState: {
     status: 'idle',
     error: null
@@ -47,6 +49,18 @@ export const userSlice = createSlice({
     [fetchUsers.rejected as any]: (state, { payload }) => {
       state.httpState.status = 'failed';
       state.users = [];
+    },
+
+    [fetchUserById.pending as any]: (state) => {
+      state.httpState.status = 'loading';
+    },
+    [fetchUserById.fulfilled as any]: (state, { payload }) => {
+      state.httpState.status = 'succeeded';
+      state.selectedUser = { ...payload };
+    },
+    [fetchUserById.rejected as any]: (state, { payload }) => {
+      state.httpState.status = 'failed';
+      state.selectedUser = null;
     }
   }
 })

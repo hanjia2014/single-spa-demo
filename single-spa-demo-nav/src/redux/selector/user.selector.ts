@@ -1,3 +1,3 @@
 import { RootState } from "../store";
 
-export const selectUsers = (state: RootState) => state.userReducer.users;
+export const selectUsers = (state: RootState) => state.userState.users;
