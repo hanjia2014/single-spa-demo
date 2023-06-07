@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { selectUsers } from "../redux/selector/user.selector";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser, addUser } from "../redux/slice/user.slice";
+import { fetchUsers } from "../redux/reducers/user.reducers";
 
 interface IHomeProps {
   title: string;
 }
 export const Home: React.FC<IHomeProps> = ({ title }) => {
   const users = useSelector(selectUsers);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const addTempUser = () => {
     const user: IUser = {
       id: users.length + 1,
@@ -17,6 +18,9 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
     };
     dispatch(addUser(user as any));
   };
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, []);
   return (
     <div>
       <h1>{title}</h1>

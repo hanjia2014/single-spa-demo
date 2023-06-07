@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { userReducers } from '../reducers/user.reducers';
+import { fetchUsers, userReducers } from '../reducers/user.reducers';
 
 export interface IUser {
   id: number;
@@ -8,7 +8,7 @@ export interface IUser {
 }
 export interface IUserState {
   users: Array<IUser>[];
-  state: {
+  httpState: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: any | null;
   }
@@ -24,7 +24,7 @@ const initialState: IUserState = {
     firstName: 'Dick',
     lastName: 'Smith'
   }],
-  state: {
+  httpState: {
     status: 'idle',
     error: null
   }
@@ -36,6 +36,19 @@ export const userSlice = createSlice({
   reducers: {
     ...userReducers
   },
+  extraReducers: {
+    [fetchUsers.pending as any]: (state) => {
+      state.httpState.status = 'loading';
+    },
+    [fetchUsers.fulfilled as any]: (state, { payload }) => {
+      state.httpState.status = 'succeeded';
+      state.users = payload.users;
+    },
+    [fetchUsers.rejected as any]: (state, { payload }) => {
+      state.httpState.status = 'failed';
+      state.users = [];
+    }
+  }
 })
 
 // Action creators are generated for each case reducer function
