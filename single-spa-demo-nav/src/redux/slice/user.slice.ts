@@ -1,33 +1,40 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { userReducers } from '../reducers/user.reducers';
 
 export interface IUser {
   id: number;
-  fname: string;
-  lname: string;
+  firstName: string;
+  lastName: string;
 }
 export interface IUserState {
   users: Array<IUser>[];
+  state: {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: any | null;
+  }
 }
 
 const initialState: IUserState = {
   users: <any>[{
     id: 1,
-    fname: 'John',
-    lname: 'Doe'
+    firstName: 'John',
+    lastName: 'Doe'
   }, {
     id: 2,
-    fname: 'Dick',
-    lname: 'Smith'
+    firstName: 'Dick',
+    lastName: 'Smith'
   }],
+  state: {
+    status: 'idle',
+    error: null
+  }
 }
 
 export const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    addUser: (state, data: any) => {
-      state.users = [...state.users, data.payload];
-    }
+    ...userReducers
   },
 })
 

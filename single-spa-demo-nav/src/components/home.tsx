@@ -12,8 +12,8 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
   const addTempUser = () => {
     const user: IUser = {
       id: users.length + 1,
-      fname: "three",
-      lname: "three"
+      firstName: "three",
+      lastName: "three"
     };
     dispatch(addUser(user as any));
   };
@@ -24,7 +24,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
         <>
           <h1>{users.length}</h1>
           <ul>
-            {users.map((user: any) => <li key={user.id}>{user.fname}</li>)}
+            {users.map((user: any) => <li key={user.id}>{user.firstName}</li>)}
           </ul>
         </>
       }
