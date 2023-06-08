@@ -3,6 +3,8 @@ import { selectUsers } from "../redux/selector/user.selector";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser, addUser } from "../redux/slice/user.slice";
 import { fetchUserById, fetchUsers } from "../redux/reducers/user.reducers";
+// @ts-ignore
+import { setData } from '@han-demo/event-bus';
 
 interface IHomeProps {
   title: string;
@@ -22,6 +24,11 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
     dispatch(fetchUsers());
     dispatch(fetchUserById({ id: 5 }));
   }, []);
+
+  useEffect(() => {
+    setData(users);
+  }, [users]);
+
   return (
     <div>
       <h1>{title}</h1>
