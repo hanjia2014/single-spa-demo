@@ -4,7 +4,7 @@ const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
     orgName: "han-demo",
-    projectName: "single-spa-demo-nav",
+    projectName: "single-spa-demo-child",
     webpackConfigEnv,
     argv,
   });
@@ -12,7 +12,7 @@ module.exports = (webpackConfigEnv, argv) => {
   return merge(defaultConfig, {
     // modify the webpack config however you'd like to by adding to this object
     devServer: {
-      port: 8089
+      port: 8090
     }
   });
 };

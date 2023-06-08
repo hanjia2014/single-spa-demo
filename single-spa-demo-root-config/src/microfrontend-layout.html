@@ -21,6 +21,11 @@
     <!-- <route default>
       <application name="@single-spa/welcome"></application>
     </route> -->
-    <application name="@han-demo/single-spa-demo-nav"></application>
+    <route default>
+      <application name="@han-demo/single-spa-demo-nav"></application>
+    </route>
+    <route path="/child">
+      <application name="@han-demo/single-spa-demo-child"></application>
+    </route>
   </main>
 </single-spa-router>
