@@ -46,7 +46,7 @@ export const userSlice = createSlice({
       state.httpState.status = 'succeeded';
       state.users = payload.users;
     },
-    [fetchUsers.rejected as any]: (state, { payload }) => {
+    [fetchUsers.rejected as any]: (state) => {
       state.httpState.status = 'failed';
       state.users = [];
     },
@@ -58,7 +58,7 @@ export const userSlice = createSlice({
       state.httpState.status = 'succeeded';
       state.selectedUser = { ...payload };
     },
-    [fetchUserById.rejected as any]: (state, { payload }) => {
+    [fetchUserById.rejected as any]: (state) => {
       state.httpState.status = 'failed';
       state.selectedUser = null;
     }
