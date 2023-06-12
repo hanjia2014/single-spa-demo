@@ -5,6 +5,7 @@ import { IUser, addUser } from "../redux/slice/user.slice";
 import { fetchUserById, fetchUsers } from "../redux/reducers/user.reducers";
 // @ts-ignore
 import { setData } from '@han-demo/event-bus';
+import { navigateToUrl } from "single-spa";
 
 interface IHomeProps {
   title: string;
@@ -29,6 +30,10 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
     setData(users);
   }, [users]);
 
+  const navigate = () => {
+    navigateToUrl('child');
+  }
+
   return (
     <div>
       <h1>{title}</h1>
@@ -41,6 +46,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
         </>
       }
       <button onClick={addTempUser}>Add User</button>
+      <button onClick={navigate}>open child page</button>
     </div>  
   );
 }
