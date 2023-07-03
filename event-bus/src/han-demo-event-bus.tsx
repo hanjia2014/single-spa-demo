@@ -5,7 +5,9 @@ export function publicApiFunction() {
   console.log('test function');
 }
 
-export const eventBus$ = new Subject();
+const eventBusSub = new Subject();
+export const eventBus$ = eventBusSub.asObservable();
+
 export const setData = data => {
-  eventBus$.next(data);
+  eventBusSub.next(data);
 }
