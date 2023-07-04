@@ -30,8 +30,8 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
     setData(users);
   }, [users]);
 
-  const navigate = () => {
-    navigateToUrl('child');
+  const navigate = (path: 'child' | 'ng') => {
+    navigateToUrl(path);
   }
 
   return (
@@ -46,7 +46,8 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
         </>
       }
       <button onClick={addTempUser}>Add User</button>
-      <button onClick={navigate}>open child page</button>
+      <button onClick={ e => navigate('child') }>open child page</button>
+      <button onClick={ e => navigate('ng') }>open angular page</button>
     </div>  
   );
 }
