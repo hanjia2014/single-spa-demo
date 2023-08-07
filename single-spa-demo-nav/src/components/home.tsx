@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { selectUsers } from "../redux/selector/user.selector";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser, addUser } from "../redux/slice/user.slice";
@@ -34,6 +34,12 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
     navigateToUrl(path);
   }
 
+  const handleUserSelect = useCallback(
+    id => {
+      console.log(`[Hook]user selected: ${id}`);
+    }, [users]
+  )
+
   return (
     <div>
       <h1>{title}</h1>
@@ -41,7 +47,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
         <>
           <h1>{users.length}</h1>
           <ul>
-            {users.map((user: any) => <li key={user.id}>{user.firstName}</li>)}
+            {users.map((user: any) => <li key={user.id}>{user.firstName} <button onClick={() => handleUserSelect(user.id)}>Select</button></li>)}
           </ul>
         </>
       }
