@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AsyncThunk, createAsyncThunk } from '@reduxjs/toolkit';
 import http, { handlePromiseCall } from "../config/http.config";
 
 export const createApiAsyncThunk = <T>(params: { 
@@ -22,4 +22,24 @@ export const createApiAsyncThunk = <T>(params: {
       return params.onSuccess ? params.onSuccess(thunkAPI.fulfillWithValue, response) : thunkAPI.fulfillWithValue(response);
     }
   );
+}
+
+export const generateExtraReducer = (asyncObj, fulfilledProp): any => {
+  asyncObj.pending = (state, { payload }) => {
+    state.httpState.status = "loading";
+  }
+  asyncObj.rejected = (state, { payload }) => {
+    state.httpState.status = "failed";
+  }
+  asyncObj.fulfilled = (state, { payload }) => {
+    state.httpState.status = "succeeded";
+    if (fulfilledProp) {
+      if (typeof asyncObj.fulfilledProp === 'string') {
+        state[fulfilledProp] = payload;
+      } else {
+        fulfilledProp(state, payload);
+      }
+    }
+  }
+  return asyncObj;
 }

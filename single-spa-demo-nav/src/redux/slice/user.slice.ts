@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchAsyncUsers, fetchUserById, fetchUsers, userReducers } from '../reducers/user.reducers';
+import { generateExtraReducer } from '../redux-utils';
 
 export interface IUser {
   id: number;
@@ -32,6 +33,10 @@ const initialState: IUserState = {
   }
 }
 
+const fetchAsyncUsersReducer = generateExtraReducer(fetchAsyncUsers, (state, data) => {
+  console.log(data)
+});
+
 export const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -61,7 +66,9 @@ export const userSlice = createSlice({
     [fetchUserById.rejected as any]: (state) => {
       state.httpState.status = 'failed';
       state.selectedUser = null;
-    }
+    },
+
+    fetchAsyncUsersReducer
   }
 })
 
