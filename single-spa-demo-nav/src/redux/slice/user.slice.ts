@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchUserById, fetchUsers, userReducers } from '../reducers/user.reducers';
+import { fetchAsyncUsers, fetchUserById, fetchUsers, userReducers } from '../reducers/user.reducers';
 
 export interface IUser {
   id: number;
