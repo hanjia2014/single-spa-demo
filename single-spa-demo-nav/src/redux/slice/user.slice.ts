@@ -33,8 +33,8 @@ const initialState: IUserState = {
   }
 }
 
-const fetchAsyncUsersReducer = generateExtraReducer(fetchAsyncUsers, (state, data) => {
-  console.log(data)
+const fetchAsyncUsersReducer = generateExtraReducer(fetchAsyncUsers, (state, payload) => {
+  state.users = payload.users;
 });
 
 export const userSlice = createSlice({
@@ -44,17 +44,17 @@ export const userSlice = createSlice({
     ...userReducers
   },
   extraReducers: {
-    [fetchUsers.pending as any]: (state) => {
-      state.httpState.status = 'loading';
-    },
-    [fetchUsers.fulfilled as any]: (state, { payload }) => {
-      state.httpState.status = 'succeeded';
-      state.users = payload.users;
-    },
-    [fetchUsers.rejected as any]: (state) => {
-      state.httpState.status = 'failed';
-      state.users = [];
-    },
+    // [fetchUsers.pending as any]: (state) => {
+    //   state.httpState.status = 'loading';
+    // },
+    // [fetchUsers.fulfilled as any]: (state, { payload }) => {
+    //   state.httpState.status = 'succeeded';
+    //   state.users = payload.users;
+    // },
+    // [fetchUsers.rejected as any]: (state) => {
+    //   state.httpState.status = 'failed';
+    //   state.users = [];
+    // },
 
     [fetchUserById.pending as any]: (state) => {
       state.httpState.status = 'loading';
@@ -68,7 +68,7 @@ export const userSlice = createSlice({
       state.selectedUser = null;
     },
 
-    fetchAsyncUsersReducer
+    ...fetchAsyncUsersReducer
   }
 })
 

@@ -25,21 +25,26 @@ export const createApiAsyncThunk = <T>(params: {
 }
 
 export const generateExtraReducer = (asyncObj, fulfilledProp): any => {
-  asyncObj.pending = (state, { payload }) => {
+  const pendingFunc = (state, action) => {
     state.httpState.status = "loading";
   }
-  asyncObj.rejected = (state, { payload }) => {
+  const rejectedFunc = (state, action) => {
     state.httpState.status = "failed";
   }
-  asyncObj.fulfilled = (state, { payload }) => {
+  const fulfilledFunc = (state, action) => {
     state.httpState.status = "succeeded";
     if (fulfilledProp) {
       if (typeof asyncObj.fulfilledProp === 'string') {
-        state[fulfilledProp] = payload;
+        state[fulfilledProp] = action.payload;
       } else {
-        fulfilledProp(state, payload);
+        fulfilledProp(state, action.payload);
       }
     }
   }
-  return asyncObj;
+
+  return {
+    [asyncObj.pending as any]: pendingFunc,
+    [asyncObj.rejected as any]: rejectedFunc,
+    [asyncObj.fulfilled as any]: fulfilledFunc
+  }
 }

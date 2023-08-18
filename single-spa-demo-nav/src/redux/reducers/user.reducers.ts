@@ -17,7 +17,7 @@ const fetchAsyncUsers = createApiAsyncThunk({
   slice: 'fetchAsyncUsers',
   url: 'https://dummyjson.com/users',
   onSuccess: (callback, res) => {
-    callback(res.data);
+    return callback(res.data);
   }
 })
 

@@ -22,7 +22,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
     dispatch(addUser(user as any));
   };
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchAsyncUsers(null));
     dispatch(fetchUserById({ id: 5 }));
   }, []);
 
