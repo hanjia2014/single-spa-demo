@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchAsyncUsers, fetchUserById, fetchUsers, userReducers } from '../reducers/user.reducers';
+import { fetchAsyncUserById, fetchAsyncUsers, fetchUserById, fetchUsers, userReducers } from '../reducers/user.reducers';
 import { generateExtraReducer } from '../redux-utils';
 
 export interface IUser {
@@ -37,6 +37,13 @@ const fetchAsyncUsersReducer = generateExtraReducer(fetchAsyncUsers, (state, pay
   state.users = payload.users;
 });
 
+const fetchAsyncUserByIdReducer = generateExtraReducer(fetchAsyncUserById, (state, payload) => {
+  state.selectedUser = {
+    selectedUserId: payload.payload.userId,
+    ...payload.data
+  };
+});
+
 export const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -44,6 +51,8 @@ export const userSlice = createSlice({
     ...userReducers
   },
   extraReducers: {
+    ...fetchAsyncUsersReducer,
+    ...fetchAsyncUserByIdReducer
     // [fetchUsers.pending as any]: (state) => {
     //   state.httpState.status = 'loading';
     // },
@@ -56,19 +65,17 @@ export const userSlice = createSlice({
     //   state.users = [];
     // },
 
-    [fetchUserById.pending as any]: (state) => {
-      state.httpState.status = 'loading';
-    },
-    [fetchUserById.fulfilled as any]: (state, { payload }) => {
-      state.httpState.status = 'succeeded';
-      state.selectedUser = { ...payload };
-    },
-    [fetchUserById.rejected as any]: (state) => {
-      state.httpState.status = 'failed';
-      state.selectedUser = null;
-    },
-
-    ...fetchAsyncUsersReducer
+    // [fetchUserById.pending as any]: (state) => {
+    //   state.httpState.status = 'loading';
+    // },
+    // [fetchUserById.fulfilled as any]: (state, { payload }) => {
+    //   state.httpState.status = 'succeeded';
+    //   state.selectedUser = { ...payload };
+    // },
+    // [fetchUserById.rejected as any]: (state) => {
+    //   state.httpState.status = 'failed';
+    //   state.selectedUser = null;
+    // },
   }
 })
 

@@ -1,5 +1,7 @@
-import { AsyncThunk, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import http, { handlePromiseCall } from "../config/http.config";
+
+const formatUrl = (url, payload) => (payload || []).reduce((acc, arg) => `${acc}\\${arg}` , url);
 
 export const createApiAsyncThunk = <T>(params: { 
   slice: string;
@@ -8,18 +10,25 @@ export const createApiAsyncThunk = <T>(params: {
   onError?: (rejectWithValue, error) => void;
   onSuccess?: (fulfilledWithValue, response) => void;
   onQueries?: (payload: any, state?: any) => any[];
+  onArgs?: (payload: any, state?: any) => any;
   onPayloadData?: (payload: T) => any;
  }) => {
   return createAsyncThunk(params.slice, 
     async (_payload: T = null, thunkAPI) => {
       const state = thunkAPI.getState();
+      const url = formatUrl(params.url, params.onArgs ? params.onArgs({ payload: _payload }) : []);
       const {response, error} = await handlePromiseCall(params.method == null || params.method === 'get' ? 
-                                  http.get(params.url) 
+                                  http.get(url) 
                                   : http[params.method](params.url, params.onPayloadData ? params.onPayloadData(_payload) : _payload));
       if (error) {
         return params.onError ? params.onError(thunkAPI.rejectWithValue, error) : thunkAPI.rejectWithValue(error);
       }
-      return params.onSuccess ? params.onSuccess(thunkAPI.fulfillWithValue, response) : thunkAPI.fulfillWithValue(response);
+      return params.onSuccess 
+            ? params.onSuccess(thunkAPI.fulfillWithValue, {
+              payload: _payload,
+              data: response.data
+            }) 
+            : thunkAPI.fulfillWithValue(response);
     }
   );
 }

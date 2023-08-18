@@ -16,10 +16,8 @@ const fetchUsers = createAsyncThunk(
 const fetchAsyncUsers = createApiAsyncThunk({
   slice: 'fetchAsyncUsers',
   url: 'https://dummyjson.com/users',
-  onSuccess: (callback, res) => {
-    return callback(res.data);
-  }
-})
+  onSuccess: (callback, res) => callback(res.data)
+});
 
 const fetchUserById = createAsyncThunk(
   'users/fetchUserById',
@@ -28,7 +26,15 @@ const fetchUserById = createAsyncThunk(
       (data) => data.json()
     )
     return res
-  });
+  }
+);
+
+const fetchAsyncUserById = createApiAsyncThunk({
+  slice: 'fetchAsyncUserById',
+  url: 'https://dummyjson.com/users',
+  onArgs: args => [args.payload.userId],
+  onSuccess: (callback, res) => callback(res)
+});
 
 export const userReducers = {
   addUser
@@ -37,5 +43,6 @@ export const userReducers = {
 export {
   fetchUsers,
   fetchUserById,
-  fetchAsyncUsers
+  fetchAsyncUsers,
+  fetchAsyncUserById
 };

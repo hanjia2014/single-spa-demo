@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import { selectUsers } from "../redux/selector/user.selector";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser, addUser } from "../redux/slice/user.slice";
-import { fetchAsyncUsers, fetchUserById, fetchUsers } from "../redux/reducers/user.reducers";
+import { fetchAsyncUserById, fetchAsyncUsers } from "../redux/reducers/user.reducers";
 // @ts-ignore
 import { setData } from '@han-demo/event-bus';
 import { navigateToUrl } from "single-spa";
@@ -23,7 +23,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
   };
   useEffect(() => {
     dispatch(fetchAsyncUsers(null));
-    dispatch(fetchUserById({ id: 5 }));
+    dispatch(fetchAsyncUserById({ userId: 5 }));
   }, []);
 
   useEffect(() => {
