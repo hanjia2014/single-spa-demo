@@ -1,9 +1,21 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import http from "../../config/http.config";
 import { createApiAsyncThunk } from "../redux-utils";
 
 const addUser = (state, data: any) => {
   state.users = [...state.users, data.payload];
+};
+
+const updateUserSelect = (
+  state,
+  action: PayloadAction<{ id: string | number }>
+) => {
+  const users = state.users.reduce((acc, user: any) => {
+    user.selected = user.id === action.payload.id;
+    acc.push(user);
+    return acc;
+  }, []);
+  state.users = users as any;
 }
 
 const fetchUsers = createAsyncThunk(
@@ -38,11 +50,12 @@ const fetchAsyncUserById = createApiAsyncThunk({
 
 export const userReducers = {
   addUser
+  , updateUserSelect
 };
 
 export {
-  fetchUsers,
-  fetchUserById,
-  fetchAsyncUsers,
-  fetchAsyncUserById
+  fetchUsers
+  , fetchUserById
+  , fetchAsyncUsers
+  , fetchAsyncUserById
 };

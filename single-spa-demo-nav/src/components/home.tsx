@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { selectUsers } from "../redux/selector/user.selector";
 import { useDispatch, useSelector } from "react-redux";
-import { IUser, addUser } from "../redux/slice/user.slice";
+import { IUser, addUser, updateUserSelect } from "../redux/slice/user.slice";
 import { fetchAsyncUserById, fetchAsyncUsers } from "../redux/reducers/user.reducers";
 // @ts-ignore
 import { setData } from '@han-demo/event-bus';
@@ -37,8 +37,32 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
   const handleUserSelect = useCallback(
     id => {
       console.log(`[Hook]user selected: ${id}`);
+      dispatch(updateUserSelect({ id }))
     }, [users]
   )
+
+  // const hanhandlereduxthunk = payload => {
+  //   console.log(`payload: ${payload}`);
+  //   return () => { return {id: 'call hanthunk', payload } };
+  // };
+
+  // const hanreduxthunk = (name: string, callbackFunc: (_payload: any) => Promise<any>): any => {
+    
+  // };
+
+  // const hanapithunk = (args: { url: string, name: string }): any => {
+  //   console.log(`args: ${args}`);
+  //   return hanreduxthunk(args.name, async (payload: any) => { 
+  //     await console.log(`payload: ${payload}`);
+  //     return () => { return { id: 'call hanthunk', payload } };
+  //   });
+  // };
+
+  // const callhancreatethunk = payload => hanapithunk({ url: 'my url', name: "my name" });
+
+  // useEffect(() => {
+  //   callhancreatethunk({userId: 3});
+  // }, []);
 
   return (
     <div>
