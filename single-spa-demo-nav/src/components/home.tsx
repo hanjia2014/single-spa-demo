@@ -6,6 +6,7 @@ import { fetchAsyncUserById, fetchAsyncUsers } from "../redux/reducers/user.redu
 // @ts-ignore
 import { setData, e } from '@han-demo/event-bus';
 import { navigateToUrl } from "single-spa";
+import { HelloPanel } from "./hello-panel";
 
 interface IHomeProps {
   title: string;
@@ -77,7 +78,9 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
 
   return (
     <div>
-      <h1>{title}</h1>
+      <HelloPanel message={title}>
+        <p>This is the demo site</p>
+      </HelloPanel>
       {users && 
         <>
           <h1>{users.length}</h1>
