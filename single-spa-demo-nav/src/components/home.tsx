@@ -53,29 +53,6 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
     e.emit('message', { text: 'hello from nav' });
   }
 
-  // const hanhandlereduxthunk = payload => {
-  //   console.log(`payload: ${payload}`);
-  //   return () => { return {id: 'call hanthunk', payload } };
-  // };
-
-  // const hanreduxthunk = (name: string, callbackFunc: (_payload: any) => Promise<any>): any => {
-    
-  // };
-
-  // const hanapithunk = (args: { url: string, name: string }): any => {
-  //   console.log(`args: ${args}`);
-  //   return hanreduxthunk(args.name, async (payload: any) => { 
-  //     await console.log(`payload: ${payload}`);
-  //     return () => { return { id: 'call hanthunk', payload } };
-  //   });
-  // };
-
-  // const callhancreatethunk = payload => hanapithunk({ url: 'my url', name: "my name" });
-
-  // useEffect(() => {
-  //   callhancreatethunk({userId: 3});
-  // }, []);
-
   return (
     <div>
       <HelloPanel message={title}>
