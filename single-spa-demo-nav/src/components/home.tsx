@@ -18,8 +18,8 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
   const addTempUser = () => {
     const user: IUser = {
       id: users.length + 1,
-      firstName: "three",
-      lastName: "three"
+      firstName: "John",
+      lastName: "Doe"
     };
     dispatch(addUser(user as any));
   };
