@@ -3,6 +3,7 @@ import { selectUsers } from "../redux/selector/user.selector";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser, addUser, updateUserSelect } from "../redux/slice/user.slice";
 import { fetchAsyncUserById, fetchAsyncUsers } from "../redux/reducers/user.reducers";
+import { useGetPokemonByNameQuery } from '../services/pokemon';
 // @ts-ignore
 import { setData, e } from '@han-demo/event-bus';
 import { navigateToUrl } from "single-spa";
@@ -16,6 +17,9 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
   const [message, setMessage] = useState();
   const users = useSelector(selectUsers);
   const dispatch = useDispatch<any>();
+
+  const { data, error, isLoading } = useGetPokemonByNameQuery('bulbasaur');
+
   const addTempUser = () => {
     const user: IUser = {
       id: users.length + 1,
@@ -59,7 +63,7 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
       <HelloPanel message={title}>
         <p>This is the demo site</p>
       </HelloPanel>
-      {users && 
+      {users &&
         <>
           <h1>{users.length}</h1>
           <ul>
@@ -67,10 +71,20 @@ export const Home: React.FC<IHomeProps> = ({ title }) => {
           </ul>
         </>
       }
+      {error ? (
+        <>Oh no, there was an error</>
+      ) : isLoading ? (
+        <>Loading...</>
+      ) : data ? (
+        <>
+          <h3>{data.species.name}</h3>
+          <img src={data.sprites.front_shiny} alt={data.species.name} />
+        </>
+      ) : null}
       <button onClick={addTempUser}>Add User</button>
       <button onClick={sendMessage}>Say Hello</button>
-      <button onClick={ e => navigate('child') }>open child page</button>
-      <button onClick={ e => navigate('ng') }>open angular page</button>
-    </div>  
+      <button onClick={e => navigate('child')}>open child page</button>
+      <button onClick={e => navigate('ng')}>open angular page</button>
+    </div>
   );
 }
